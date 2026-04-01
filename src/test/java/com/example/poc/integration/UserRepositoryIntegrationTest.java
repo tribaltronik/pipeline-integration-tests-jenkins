@@ -33,7 +33,7 @@ class UserRepositoryIntegrationTest {
     static OracleContainer oracleContainer = new OracleContainer(
             DockerImageName.parse("gvenzl/oracle-xe:21-slim")
                     .asCompatibleSubstituteFor("gvenzl/oracle-xe"))
-            .withExposedPorts(1521)
+            .withOracleSid("ORCL")
             .withReuse(false)
             .waitingFor(new LogMessageWaitStrategy()
                     .withRegEx(".*DATABASE IS READY TO USE.*")
@@ -42,11 +42,10 @@ class UserRepositoryIntegrationTest {
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> 
-            "jdbc:oracle:thin:@//" + oracleContainer.getHost() + ":" + oracleContainer.getMappedPort(1521) + ":ORCL");
-        registry.add("spring.datasource.username", () -> "sys");
+            "jdbc:oracle:thin:@//localhost:" + oracleContainer.getMappedPort(1521) + "/ORCL");
+        registry.add("spring.datasource.username", () -> "system");
         registry.add("spring.datasource.password", () -> "oracle");
         registry.add("spring.datasource.driver-class-name", () -> "oracle.jdbc.OracleDriver");
-        registry.add("spring.datasource.hikari.connection-test-query", () -> "SELECT 1 FROM dual");
     }
 
 
