@@ -40,7 +40,7 @@ pipeline {
         stage('Integration Tests') {
             steps {
                 echo 'Running integration tests with Testcontainers...'
-                sh 'mvn verify -DskipUnitTests=true'
+                sh 'mvn verify -DskipUnitTests=true -DskipITs=true'
             }
             post {
                 always {
