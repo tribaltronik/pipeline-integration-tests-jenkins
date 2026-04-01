@@ -64,18 +64,7 @@ pipeline {
         stage('Integration Tests') {
             steps {
                 echo 'Setting up database schema...'
-                sh '''docker exec oracle sqlplus -s system/oracle@XEPDB1 <<EOF
-CREATE TABLE users (
-    id NUMBER(19) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR2(100) NOT NULL,
-    email VARCHAR2(255) NOT NULL UNIQUE,
-    status VARCHAR2(20) DEFAULT 'ACTIVE',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-EXIT;
-EOF'''
-                echo 'Running integration tests...'
+                sh 'docker exec oracle sqlplus system/oracle@XEPDB1 @/u01/scripts/init.sql'
                 sh 'mvn verify -DskipUnitTests=true -q'
             }
             post {

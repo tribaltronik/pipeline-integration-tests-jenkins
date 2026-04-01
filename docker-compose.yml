@@ -36,6 +36,7 @@ services:
       retries: 10
     volumes:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - ./oracle-scripts:/u01/scripts:ro
 
 networks:
   app-network:
