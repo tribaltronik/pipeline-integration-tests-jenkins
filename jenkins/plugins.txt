@@ -1,0 +1,7 @@
+workflow-aggregator
+git
+pipeline-stage-view
+junit
+docker-workflow
+configuration-as-code
+pipeline-utility-steps

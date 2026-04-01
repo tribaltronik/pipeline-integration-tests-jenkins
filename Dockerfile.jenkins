@@ -1,0 +1,25 @@
+FROM jenkins/jenkins:jdk21
+
+USER root
+
+# Install Maven
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+
+# Skip setup wizard
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+
+# Install plugins via jenkins-plugin-cli
+RUN jenkins-plugin-cli --plugins \
+    workflow-aggregator \
+    git \
+    pipeline-stage-view \
+    junit \
+    docker-workflow \
+    configuration-as-code \
+    pipeline-utility-steps \
+    timestamper
+
+# Disable CSRF by default
+RUN echo 'jenkins.model.Jenkins.instance.setCrumbIssuer(null)' >> /usr/share/jenkins/ref/init.groovy.d/disable-csrf.groovy
