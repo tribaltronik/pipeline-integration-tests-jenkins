@@ -31,7 +31,7 @@ class UserRepositoryIntegrationTest {
     @SuppressWarnings("rawtypes")
     @Container
     static OracleContainer oracleContainer = new OracleContainer(
-            DockerImageName.parse("oracleinanutshell/oracle-database:18.4.0-xe")
+            DockerImageName.parse("gvenzl/oracle-xe:21-slim")
                     .asCompatibleSubstituteFor("gvenzl/oracle-xe"))
             .withExposedPorts(1521)
             .withReuse(false)

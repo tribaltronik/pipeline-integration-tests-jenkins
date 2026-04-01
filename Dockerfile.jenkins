@@ -2,8 +2,11 @@ FROM jenkins/jenkins:jdk21
 
 USER root
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+# Install Maven and Docker CLI
+RUN apt-get update && apt-get install -y maven docker.io && rm -rf /var/lib/apt/lists/*
+
+# Add jenkins user to docker group
+RUN usermod -aG docker jenkins
 
 USER jenkins
 
