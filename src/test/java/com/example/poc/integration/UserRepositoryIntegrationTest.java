@@ -23,10 +23,11 @@ class UserRepositoryIntegrationTest {
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> 
-            "jdbc:oracle:thin:@172.22.0.2:1521/ORCL");
+            "jdbc:oracle:thin:@oracle:1521/XEPDB1");
         registry.add("spring.datasource.username", () -> "system");
         registry.add("spring.datasource.password", () -> "oracle");
         registry.add("spring.datasource.driver-class-name", () -> "oracle.jdbc.OracleDriver");
+        registry.add("spring.flyway.enabled", () -> "false");
     }
 
 
