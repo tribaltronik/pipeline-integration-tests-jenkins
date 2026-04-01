@@ -10,38 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.OracleContainer;
-import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Testcontainers
-@DisplayName("UserRepository Integration Tests (with Testcontainers)")
+@DisplayName("UserRepository Integration Tests")
 class UserRepositoryIntegrationTest {
-
-    @SuppressWarnings("rawtypes")
-    @Container
-    static OracleContainer oracleContainer = new OracleContainer(
-            DockerImageName.parse("gvenzl/oracle-xe:21-slim")
-                    .asCompatibleSubstituteFor("gvenzl/oracle-xe"))
-            .withReuse(false)
-            .waitingFor(new LogMessageWaitStrategy()
-                    .withRegEx(".*DATABASE IS READY TO USE.*")
-                    .withStartupTimeout(Duration.ofMinutes(5)));
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", () -> 
-            "jdbc:oracle:thin:@localhost:" + oracleContainer.getMappedPort(1521) + ":ORCL");
+            "jdbc:oracle:thin:@172.22.0.2:1521/ORCL");
         registry.add("spring.datasource.username", () -> "system");
         registry.add("spring.datasource.password", () -> "oracle");
         registry.add("spring.datasource.driver-class-name", () -> "oracle.jdbc.OracleDriver");
