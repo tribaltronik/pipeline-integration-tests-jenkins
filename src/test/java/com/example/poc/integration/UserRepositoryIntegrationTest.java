@@ -15,6 +15,7 @@ import org.testcontainers.containers.OracleContainer;
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
 import java.util.List;
@@ -29,7 +30,9 @@ class UserRepositoryIntegrationTest {
 
     @SuppressWarnings("rawtypes")
     @Container
-    static OracleContainer oracleContainer = new OracleContainer("oracleinanutshell/oracle-database:18.4.0-xe")
+    static OracleContainer oracleContainer = new OracleContainer(
+            DockerImageName.parse("oracleinanutshell/oracle-database:18.4.0-xe")
+                    .asCompatibleSubstituteFor("gvenzl/oracle-xe"))
             .withExposedPorts(1521)
             .withReuse(false)
             .waitingFor(new LogMessageWaitStrategy()
